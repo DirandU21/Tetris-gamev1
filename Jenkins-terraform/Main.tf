@@ -1,5 +1,5 @@
 resource "aws_iam_role" "example_role" {
-  name = "Jenkins-terraform"
+  name = "Jenkins-tetris"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -22,12 +22,12 @@ resource "aws_iam_role_policy_attachment" "example_attachment" {
 }
 
 resource "aws_iam_instance_profile" "example_profile" {
-  name = "Jenkins-terraform"
+  name = "Jenkins-terraform-tetris"
   role = aws_iam_role.example_role.name
 }
 
 resource "aws_security_group" "Jenkins-sg" {
-  name        = "Jenkins-Security Group"
+  name        = "Jenkins-tetris Group"
   description = "Open 22,443,80,8080,9000"
 
   # Define a single ingress rule to allow traffic on all specified ports
@@ -58,15 +58,15 @@ resource "aws_security_group" "Jenkins-sg" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-03f4878755434977f"
-  instance_type          = "t2.large"
-  key_name               = "Argo key"
+  ami                    = "ami-04b70fa74e45c3917"
+  instance_type          = "t2.medium"
+  key_name               = "linux2.0"
   vpc_security_group_ids = [aws_security_group.Jenkins-sg.id]
   user_data              = templatefile("./install_jenkins.sh", {})
   iam_instance_profile   = aws_iam_instance_profile.example_profile.name
 
   tags = {
-    Name = "Jenkins Server"
+    Name = "Jenkins Serv"
   }
 
   root_block_device {
